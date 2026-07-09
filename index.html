@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Музей Искусства</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a0b2e 0%, #4b1d52 100%); 
+            background-attachment: fixed;
+            color: #f8f4e6; 
+            font-family: 'Georgia', serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        /* --- МОБИЛЬНАЯ АДАПТАЦИЯ (МЕДИА-ЗАПРОСЫ) --- */
+        @media (max-width: 600px) {
+            .intro-content h1 { font-size: 1.8em !important; padding: 0 10px; }
+            .quote-container p { font-size: 1.4em !important; }
+            .gallery { gap: 30px !important; padding: 20px !important; }
+            .gallery img { max-height: 250px !important; }
+            .finale-container { margin: 40px 15px !important; padding: 20px !important; }
+            .finale-text { font-size: 1.2em !important; }
+            .close-btn { right: 20px !important; font-size: 40px !important; }
+            button { padding: 10px 30px !important; font-size: 1em !important; }
+        }
+
+        /* Остальной CSS такой же, как был, для сохранения дизайна */
+        .hearts-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+        .heart { position: absolute; color: rgba(255, 105, 180, 0.3); font-size: 20px; animation: floatUp 12s linear infinite; bottom: -50px; }
+        @keyframes floatUp { 0% { transform: translateY(0); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(-100vh); opacity: 0; } }
+
+        #intro { background-image: url('ChatGPT Image 9 июл. 2026 г., 21_08_49.png'); background-size: cover; background-position: center; height: 100vh; display: flex; align-items: center; justify-content: center; transition: opacity 1.2s ease-out; position: relative; z-index: 10; }
+        #intro::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); }
+        .intro-content { position: relative; z-index: 1; padding: 30px; border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 15px; }
+        
+        #gallery-section { display: none; opacity: 0; position: relative; z-index: 1; padding-bottom: 50px; }
+        .gallery { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; padding: 20px; }
+        .gallery img { 
+            max-width: 90%; 
+            border: 10px solid #fffdf7; 
+            outline: 5px ridge #d4af37; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        #hidden-choco { width: 60px; position: relative; margin-top: 20px; opacity: 0.8; cursor: pointer; }
+        
+        #lightbox, #choco-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center; }
+        #lightbox img { max-width: 90%; max-height: 80vh; border: 10px solid #fff; }
+        .close-btn { position: absolute; top: 20px; right: 20px; color: gold; font-size: 40px; cursor: pointer; }
+        
+        .choco-content { background: #4b1d52; padding: 30px; border: 2px solid gold; border-radius: 20px; color: white; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <div id="intro">
+        <div class="intro-content">
+            <h1>Хотите посетить наш музей искусства?</h1>
+            <button onclick="enterMuseum()">Войти</button>
+        </div>
+    </div>
+    
+    <div id="gallery-section">
+        <div class="hearts-container"><div class="heart">❤</div><div class="heart" style="left:50%; animation-delay:2s">❤</div></div>
+        
+        <div class="quote-container">
+            <p>"Ты как искусство, на которое можно смотреть вечно. Ты моя муза, а я — твой ценитель."</p>
+        </div>
+
+        <main class="gallery">
+            <img src="WhatsApp Image 2026-07-09 at 899.18.48.jpeg" onclick="openLightbox(this.src)" alt="Фото">
+            <img src="WhatsApp Image 2026-07-09 at 190018.48.jpeg" onclick="openLightbox(this.src)" alt="Фото">
+            <!-- (Остальные фото аналогично) -->
+        </main>
+
+        <div class="finale-container">
+            <div class="finale-text">Я люблю тебя очень сильно. Ты самая лучшая, не слушай никого. Я буду твоим ценителем до конца.</div>
+            <img src="Шоколадка_для_фокалор-removebg-preview.jpg" id="hidden-choco" onclick="openChocoModal()" alt="Шоколадка">
+        </div>
+    </div>
+
+    <div id="lightbox" onclick="closeLightbox(event)"><span class="close-btn">&times;</span><img id="lightbox-img" src=""></div>
+    <div id="choco-modal"><div class="choco-content"><h2>Сюрприз!</h2><p>Ты получила шоколадку 🍫</p><button onclick="closeChocoModal()">Закрыть</button></div></div>
+
+    <script>
+        function enterMuseum() {
+            document.getElementById('intro').style.display = 'none';
+            document.getElementById('gallery-section').style.display = 'block';
+            document.getElementById('gallery-section').style.opacity = '1';
+        }
+        function openLightbox(src) { document.getElementById('lightbox-img').src = src; document.getElementById('lightbox').style.display = 'flex'; }
+        function closeLightbox() { document.getElementById('lightbox').style.display = 'none'; }
+        function openChocoModal() { document.getElementById('choco-modal').style.display = 'flex'; }
+        function closeChocoModal() { document.getElementById('choco-modal').style.display = 'none'; }
+    </script>
+</body>
+</html>
